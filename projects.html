@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Projects by Nadeera Rukshan Hewawasam — security tools, recon frameworks, and more."/>
+    <title>Projects | NadeeraR.Hewawasam</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+
+    <style>
+        /* ── Projects list ── */
+        .projects {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .project-wrapper { position: relative; }
+
+        .project-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, background 0.3s;
+            border: 1px solid rgba(63,226,207,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            cursor: default;
+        }
+
+        .project-wrapper:hover .project-card {
+            transform: translateX(8px);
+            box-shadow: 0 0 0 1px rgba(0,240,224,0.15), 0 8px 32px rgba(0,240,224,0.07);
+            border-color: rgba(0,240,224,0.22);
+            background: rgba(0,240,224,0.04);
+        }
+
+        .project-info { display: flex; align-items: flex-start; gap: 0.9rem; flex: 1; }
+
+        .project-index {
+            font-family: "Space Mono", monospace;
+            font-size: 0.7rem;
+            color: rgba(0,240,224,0.35);
+            min-width: 22px;
+            transition: color 0.3s;
+            padding-top: 3px;
+        }
+        .project-wrapper:hover .project-index { color: var(--neon-left); }
+
+        .project-name-block { display: flex; flex-direction: column; }
+
+        .project-info h3 {
+            font-size: 1.1rem;
+            color: var(--soft-white);
+            font-family: "Playfair Display", serif;
+            transition: color 0.3s;
+        }
+        .project-wrapper:hover .project-info h3 { color: var(--neon-left); }
+
+        /* Expand on hover */
+        .project-desc {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.35s ease;
+        }
+        .project-wrapper:hover .project-desc { grid-template-rows: 1fr; }
+
+        .project-desc-inner { overflow: hidden; }
+
+        .project-desc-body {
+            padding-top: 0.55rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .desc-label {
+            font-family: "Space Mono", monospace;
+            font-size: 0.6rem;
+            color: rgba(0,240,224,0.4);
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .desc-label::before {
+            content: '';
+            display: inline-block;
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--neon-left);
+            box-shadow: 0 0 5px var(--neon-left);
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+        .desc-text {
+            font-family: "Inter", sans-serif;
+            font-size: 0.8rem;
+            color: var(--body-text);
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+        }
+        .project-wrapper:hover .desc-text { opacity: 1; transform: translateY(0); }
+
+        .desc-tags {
+            font-family: "Space Mono", monospace;
+            font-size: 0.58rem;
+            color: rgba(0,240,224,0.5);
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: opacity 0.3s ease 0.18s;
+        }
+        .project-wrapper:hover .desc-tags { opacity: 1; }
+
+        .project-links { flex-shrink: 0; padding-top: 2px; }
+
+        .project-links a {
+            color: rgba(0,240,224,0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+            font-family: "Space Mono", monospace;
+            white-space: nowrap;
+        }
+        .project-wrapper:hover .project-links a { color: var(--neon-left); }
+        .project-links a:hover { color: var(--neon-right); }
+
+        @media (max-width: 768px) {
+            .projects { max-width: 100%; }
+            .project-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+
+        /* Category badges */
+        .availability {
+            display: inline-flex;
+            align-self: flex-start;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2rem;
+            padding: 6px 16px;
+            border-radius: 100px;
+            background: rgba(0,255,84,0.06);
+            border: 1px solid rgba(0,255,84,0.2);
+            font-family: "Space Mono", monospace;
+            font-size: 0.80rem;
+            color: var(--neon-right);
+            letter-spacing: 1px;
+        }
+        .availability::before {
+            content: '';
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--neon-right);
+            box-shadow: 0 0 6px var(--neon-right);
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+        .availability-webdev {
+            margin-top: 3rem;
+        }
+        .availability-certs {
+            margin-top: 3rem;
+        }
+
+        /* ── Certificates grid ── */
+        .certificates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.4rem;
+        }
+
+        .certificate-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(63,226,207,0.06);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, background 0.3s;
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 0 1px rgba(0,240,224,0.15), 0 12px 32px rgba(0,240,224,0.08);
+            border-color: rgba(0,240,224,0.22);
+            background: rgba(0,240,224,0.04);
+        }
+
+        .certificate-thumb {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid rgba(0,240,224,0.08);
+        }
+
+        .certificate-info {
+            padding: 0.9rem 1.1rem;
+        }
+
+        .certificate-info h4 {
+            font-family: "Playfair Display", serif;
+            font-size: 0.98rem;
+            color: var(--soft-white);
+            margin-bottom: 0.3rem;
+        }
+
+        .certificate-meta {
+            font-family: "Space Mono", monospace;
+            font-size: 0.65rem;
+            color: rgba(0,240,224,0.5);
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <header>
+        <a href="index.html" class="nav-logo">&lt;NRH /&gt;</a>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="projects.html" class="active">Projects</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html" class="active">Projects</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <section id="projects">
+        <h2 class="section-title">My Projects</h2>
+        <div class="projects">
+            <div class="availability">Cybersecurity Researcher</div>
+            <div class="project-wrapper">
+                <div class="project-card">
+                    <div class="project-info">
+                        <span class="project-index">01</span>
+                        <div class="project-name-block">
+                            <h3>XSS Vulnerability Scanner</h3>
+                            <div class="project-desc">
+                                <div class="project-desc-inner">
+                                    <div class="project-desc-body">
+                                        <span class="desc-label">// overview</span>
+                                        <p class="desc-text">A Python-based Cross-Site Scripting (XSS) vulnerability scanner designed to automate the detection of XSS flaws in web applications. It combines reflected and DOM-based XSS testing with multi-threading for efficiency.</p>
+                                        <span class="desc-tags">[ python &nbsp;·&nbsp; security &nbsp;·&nbsp; xss ]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/tkMONK/XSS_Vulnerability_Scanner" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-wrapper">
+                <div class="project-card">
+                    <div class="project-info">
+                        <span class="project-index">02</span>
+                        <div class="project-name-block">
+                            <h3>ActPass</h3>
+                            <div class="project-desc">
+                                <div class="project-desc-inner">
+                                    <div class="project-desc-body">
+                                        <span class="desc-label">// overview</span>
+                                        <p class="desc-text">ActPass is a Bash-based reconnaissance framework for performing both passive and active information gathering against a target domain. It is designed for quick enumeration during recon phases and provides output with automatic logging of results.</p>
+                                        <span class="desc-tags">[ bash &nbsp;·&nbsp; recon &nbsp;·&nbsp; cli ]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/tkMONK/ActPass" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-wrapper">
+                <div class="project-card">
+                    <div class="project-info">
+                        <span class="project-index">03</span>
+                        <div class="project-name-block">
+                            <h3>8core</h3>
+                            <div class="project-desc">
+                                <div class="project-desc-inner">
+                                    <div class="project-desc-body">
+                                        <span class="desc-label">// overview</span>
+                                        <p class="desc-text">A multi-threaded network scanner and service fingerprinting tool optimized for fast reconnaissance across large IP ranges in lab environments.</p>
+                                        <span class="desc-tags">[ bash &nbsp;·&nbsp; threads &nbsp;·&nbsp; recon ]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/tkMONK/8core" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-wrapper">
+                <div class="project-card">
+                    <div class="project-info">
+                        <span class="project-index">04</span>
+                        <div class="project-name-block">
+                            <h3>Basic HTTP Mini Web Server</h3>
+                            <div class="project-desc">
+                                <div class="project-desc-inner">
+                                    <div class="project-desc-body">
+                                        <span class="desc-label">// overview</span>
+                                        <p class="desc-text">A lightweight HTTP server built from scratch in Java, handling basic GET/POST requests, static file serving, and custom response headers — built to understand low-level networking.</p>
+                                        <span class="desc-tags">[ java &nbsp;·&nbsp; networking &nbsp;·&nbsp; http ]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/tkMONK/HTTP-Server" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-wrapper">
+                <div class="project-card">
+                    <div class="project-info">
+                        <span class="project-index">05</span>
+                        <div class="project-name-block">
+                            <h3>Reconx</h3>
+                            <div class="project-desc">
+                                <div class="project-desc-inner">
+                                    <div class="project-desc-body">
+                                        <span class="desc-label">// overview</span>
+                                        <p class="desc-text">This is a same tool like actpass but written in go. that is fast and more reliable active and passive reconnaissance tool.</p>
+                                        <span class="desc-tags">[ Go &nbsp;·&nbsp; recon &nbsp;·&nbsp; cli ]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/tkMONK/Reconx" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-wrapper">
+                <div class="project-card">
+                    <div class="project-info">
+                        <span class="project-index">06</span>
+                        <div class="project-name-block">
+                            <h3>Writeups</h3>
+                            <div class="project-desc">
+                                <div class="project-desc-inner">
+                                    <div class="project-desc-body">
+                                        <span class="desc-label">// overview</span>
+                                        <p class="desc-text">Detailed walkthroughs and solutions for CTF challenges and HackTheBox/TryHackMe machines, documenting methodology, tools used, and key takeaways.</p>
+                                        <span class="desc-tags">[ ctf &nbsp;·&nbsp; htb &nbsp;·&nbsp; tryhackme ]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/tkMONK/writeups" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="availability availability-webdev">Web Developer</div>
+            <div class="project-wrapper">
+                <div class="project-card">
+                    <div class="project-info">
+                        <span class="project-index">01</span>
+                        <div class="project-name-block">
+                            <h3>Website</h3>
+                            <div class="project-desc">
+                                <div class="project-desc-inner">
+                                    <div class="project-desc-body">
+                                        <span class="desc-label">// overview</span>
+                                        <p class="desc-text">A modern, responsive tour and travel website developed for DSSTours, featuring tour packages, destination pages, booking inquiries, and WhatsApp integration for seamless customer communication.</p>
+                                        <span class="desc-tags">[ wordpress &nbsp;·&nbsp; Website &nbsp;·&nbsp; webdev ]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://dsstours.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i> DSStours</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="availability availability-certs">Learner</div>
+            <div class="certificates">
+                <div class="certificate-card">
+                    <img class="certificate-thumb" src="wap.png" alt="Web Application Pentesting certificate">
+                    <div class="certificate-info">
+                        <h4>Web Application Pentesting</h4>
+                        <span class="certificate-meta">TryHackMe &nbsp;·&nbsp; 8th January 2026</span>
+                    </div>
+                </div>
+                <div class="certificate-card">
+                    <img class="certificate-thumb" src="jpentester.png" alt="Jr Penetration Tester certificate">
+                    <div class="certificate-info">
+                        <h4>Jr Penetration Tester</h4>
+                        <span class="certificate-meta">TryHackMe &nbsp;·&nbsp; 11th July 2025</span>
+                    </div>
+                </div>
+                <div class="certificate-card">
+                    <img class="certificate-thumb" src="wf.png" alt="Web Fundamentals certificate">
+                    <div class="certificate-info">
+                        <h4>Web Fundamentals</h4>
+                        <span class="certificate-meta">TryHackMe &nbsp;·&nbsp; 16th July 2025</span>
+                    </div>
+                </div>
+                <div class="certificate-card">
+                    <img class="certificate-thumb" src="presecurity.png" alt="Pre Security certificate">
+                    <div class="certificate-info">
+                        <h4>Pre Security</h4>
+                        <span class="certificate-meta">TryHackMe &nbsp;·&nbsp; 21st January 2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>@NRH a.k.a tmoke</p>
+    </footer>
+
+    <script src="canvas.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            mobileNav.classList.toggle('open');
+            document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+        });
+        mobileNav.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                mobileNav.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Nadeera Rukshan Hewawasam — Penetration Tester, Security Researcher & Bug Bounty Hunter."/>
+    <title>NadeeraR.Hewawasam</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+
+    <style>
+        /* ── Hero ── */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(2rem, 5vw, 4rem);
+            padding: 6rem 8rem;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 1 1 320px;
+            min-width: 280px;
+            order: 2;
+        }
+
+        .hero-img {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: center;
+            order: 1;
+        }
+
+        @media (min-width: 769px) {
+            .hero-text { order: 1; }
+            .hero-img { order: 2; }
+        }
+
+        /* Profile frame — size scales fluidly with viewport, no fixed breakpoints */
+        .profile-frame {
+            --size: clamp(220px, 26vw, 320px);
+            width: var(--size);
+            height: var(--size);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orbit {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            animation: spin linear infinite;
+        }
+        .orbit-1 { width: calc(var(--size) + 70px); height: calc(var(--size) + 70px); border-top-color: rgba(0,240,224,0.5); border-right-color: rgba(0,240,224,0.15); animation-duration: 8s; }
+        .orbit-2 { width: calc(var(--size) + 110px); height: calc(var(--size) + 110px); border-bottom-color: rgba(0,255,84,0.4); border-left-color: rgba(0,255,84,0.1); animation-duration: 13s; animation-direction: reverse; }
+        .orbit-3 { width: calc(var(--size) + 150px); height: calc(var(--size) + 150px); border-top-color: rgba(0,240,224,0.2); border-right-color: rgba(0,255,84,0.2); animation-duration: 20s; }
+
+        .orbit::before {
+            content: '';
+            position: absolute;
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--neon-left);
+            box-shadow: 0 0 10px var(--neon-left), 0 0 20px var(--neon-left);
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+        }
+        .orbit-2::before { background: var(--neon-right); box-shadow: 0 0 10px var(--neon-right), 0 0 20px var(--neon-right); bottom: 0; top: auto; }
+        .orbit-3::before { width: 5px; height: 5px; background: rgba(0,240,224,0.6); box-shadow: 0 0 8px var(--neon-left); }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        .profile-img-wrap {
+            position: relative;
+            width: calc(var(--size) - 20px);
+            height: calc(var(--size) - 20px);
+            border-radius: 50%;
+            z-index: 2;
+            flex-shrink: 0;
+        }
+
+        .profile-frame img {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Fix: remove filter/blur — use consistent rendering across all browsers */
+            border: 2px solid rgba(0, 255, 200, 0.25);
+            box-shadow:
+                0 0 0 6px rgba(0, 240, 224, 0.05),
+                0 0 40px rgba(0, 240, 224, 0.2),
+                0 0 80px rgba(0, 240, 224, 0.08);
+            display: block;
+            /* Ensure crisp rendering across browsers */
+            image-rendering: auto;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        /* Scanline — use background-size instead of background-position animation for cross-browser */
+        .profile-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(0,240,224,0.06) 48%,
+                rgba(0,240,224,0.14) 50%,
+                rgba(0,240,224,0.06) 52%,
+                transparent 100%
+            );
+            background-size: 100% 200%;
+            animation: scan 3.5s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0%   { background-position: 0 -100%; }
+            100% { background-position: 0 200%; }
+        }
+
+        .profile-img-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(0,240,224,0.04);
+            opacity: 0;
+            pointer-events: none;
+            animation: glitch-idle 6s infinite;
+        }
+        @keyframes glitch-idle {
+            0%,94%,100% { opacity: 0; transform: translate(0,0); }
+            95%          { opacity: 1; transform: translate(-3px,1px); filter: hue-rotate(90deg); }
+            96%          { opacity: 0; transform: translate(0,0); }
+            97%          { opacity: 1; transform: translate(3px,-1px); filter: hue-rotate(-90deg); }
+            98%          { opacity: 0; }
+        }
+
+        /* Bracket corners */
+        .bracket { position: absolute; width: 28px; height: 28px; z-index: 3; }
+        .bracket-tl { top:-2px; left:-2px; border-top:2px solid var(--neon-left); border-left:2px solid var(--neon-left); border-radius:4px 0 0 0; }
+        .bracket-tr { top:-2px; right:-2px; border-top:2px solid var(--neon-right); border-right:2px solid var(--neon-right); border-radius:0 4px 0 0; }
+        .bracket-bl { bottom:-2px; left:-2px; border-bottom:2px solid var(--neon-right); border-left:2px solid var(--neon-right); border-radius:0 0 0 4px; }
+        .bracket-br { bottom:-2px; right:-2px; border-bottom:2px solid var(--neon-left); border-right:2px solid var(--neon-left); border-radius:0 0 4px 0; }
+
+        /* Status badge */
+        .profile-status {
+            position: absolute;
+            bottom: -42px;
+            left: 50%; transform: translateX(-50%);
+            font-family: "Space Mono", monospace;
+            font-size: 0.62rem;
+            color: var(--neon-right);
+            letter-spacing: 2px;
+            white-space: nowrap;
+            opacity: 0.75;
+        }
+        .profile-status::before {
+            content: '●';
+            color: var(--neon-right);
+            margin-right: 6px;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+        /* Hero text */
+        .hero-text h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(2.4rem, 6vw, 5.2rem);
+            font-weight: 800;
+            line-height: 1.08;
+            margin-bottom: 1.2rem;
+            color: var(--soft-white);
+        }
+        .hero-text h1 span {
+            background: linear-gradient(90deg, var(--neon-left), var(--neon-right));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-text p {
+            font-family: "Space Mono", monospace;
+            font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+            color: var(--body-text);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* CTA button */
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            border: 1px solid rgba(0,240,224,0.28);
+            border-radius: 6px;
+            color: var(--neon-left);
+            font-family: "Space Mono", monospace;
+            text-decoration: none;
+            background: linear-gradient(90deg, rgba(0,240,224,0.08), rgba(0,255,84,0.06));
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+            box-shadow: 0 6px 30px rgba(0,240,224,0.07);
+            backdrop-filter: blur(6px);
+            font-weight: 700;
+            letter-spacing: 0.6px;
+        }
+        .btn:hover {
+            transform: translateY(-4px);
+            color: #021212;
+            background: linear-gradient(90deg, var(--neon-left), var(--neon-right));
+            box-shadow: 0 8px 40px rgba(0,240,224,0.18);
+            border-color: rgba(255,255,255,0.06);
+        }
+
+        /* Responsive — sizes above are fluid (clamp/vw), so these just tune spacing */
+        @media (max-width: 1024px) {
+            .hero { padding: 4.5rem 3rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                text-align: center;
+                padding: 6rem 1.25rem 3rem;
+                gap: 3rem;
+            }
+            .hero-text { align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <header>
+        <a href="index.html" class="nav-logo">&lt;NRH /&gt;</a>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <!-- Mobile nav overlay -->
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="index.html" class="active">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-img">
+            <div class="profile-frame">
+                <div class="orbit orbit-1"></div>
+                <div class="orbit orbit-2"></div>
+                <div class="orbit orbit-3"></div>
+                <div class="profile-img-wrap">
+                    <div class="bracket bracket-tl"></div>
+                    <div class="bracket bracket-tr"></div>
+                    <div class="bracket bracket-bl"></div>
+                    <div class="bracket bracket-br"></div>
+                    <img src="tmonk.jpeg" alt="Profile photo of Nadeera Rukshan Hewawasam">
+                </div>
+                <div class="profile-status">ONLINE &nbsp;·&nbsp; SECURITY_RESEARCHER</div>
+            </div>
+        </div>
+
+        <div class="hero-text">
+            <h1><span>Nadeera Rukshan</span></h1>
+            <p>Pentester &nbsp;|&nbsp; Bug Bounty Hunter &nbsp;|&nbsp; Web Developer</p>
+            <a href="projects.html" class="btn">View My Work</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>@NRH a.k.a tmoke</p>
+    </footer>
+
+    <script src="canvas.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            mobileNav.classList.toggle('open');
+            document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+        });
+        mobileNav.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                mobileNav.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
+</body>
+</html>
